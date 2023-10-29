@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ubuntu Hardening App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ufw-config.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Ubuntu Hardening App</h1>
+
+        <form method="POST">
+            <div class="toggle-button">
+                <label class="switch">
+                    <input type="checkbox" name="ufw_toggle" value="1">
+                    <span class="slider round"></span>
+                </label>
+                Enable UFW
+            </div>
+
+            <label class="input-label" for="password">Enter your sudo password:</label>
+            <input type="password" id="password" class="form-control" name="password" required>
+
+            <div class="toggle-button">
+                <label class="switch">
+                    <input type="checkbox" name="incoming_toggle" value="1">
+                    <span class="slider round"></span>
+                </label>
+                Allow Incoming
+            </div>
+
+            <div class="toggle-button">
+                <label class="switch">
+                    <input type="checkbox" name="outgoing_toggle" value="1">
+                    <span class="slider round"></span>
+                </label>
+                Allow Outgoing
+            </div>
+
+            <div class="toggle-button">
+                <label class="switch">
+                    <input type="checkbox" name="ssh_toggle" value="1">
+                    <span class="slider round"></span>
+                </label>
+                Allow SSH
+            </div>
+
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
