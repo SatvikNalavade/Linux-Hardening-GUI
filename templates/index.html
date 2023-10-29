@@ -8,44 +8,47 @@
     <div class="container">
         <h1>Ubuntu Hardening App</h1>
 
-        <form method="POST">
+        <form id="password-form" method="POST">
+            <label class="input-label" for="password">Enter your sudo password:</label>
+            <input type="password" id="password" class="form-control" name="password" required>
+            <button class="btn btn-primary" type="submit" id="password-submit">Submit Password</button>
+        </form>
+
+        <div id="options-section" style="display: none;">
             <div class="toggle-button">
+                <div class="toggle-label">Enable UFW</div>
                 <label class="switch">
                     <input type="checkbox" name="ufw_toggle" value="1">
                     <span class="slider round"></span>
                 </label>
-                Enable UFW
             </div>
 
-            <label class="input-label" for="password">Enter your sudo password:</label>
-            <input type="password" id="password" class="form-control" name="password" required>
-
             <div class="toggle-button">
+                <div class="toggle-label">Allow Incoming</div>
                 <label class="switch">
                     <input type="checkbox" name="incoming_toggle" value="1">
                     <span class="slider round"></span>
                 </label>
-                Allow Incoming
             </div>
 
             <div class="toggle-button">
+                <div class="toggle-label">Allow Outgoing</div>
                 <label class="switch">
                     <input type="checkbox" name="outgoing_toggle" value="1">
                     <span class="slider round"></span>
                 </label>
-                Allow Outgoing
             </div>
 
             <div class="toggle-button">
+                <div class="toggle-label">Allow SSH</div>
                 <label class="switch">
                     <input type="checkbox" name="ssh_toggle" value="1">
                     <span class="slider round"></span>
                 </label>
-                Allow SSH
             </div>
 
             <button class="btn btn-primary" type="submit">Save</button>
-        </form>
+        </div>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -59,5 +62,19 @@
             {% endif %}
         {% endwith %}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordForm = document.getElementById('password-form');
+            const passwordSubmitButton = document.getElementById('password-submit');
+            const optionsSection = document.getElementById('options-section');
+
+            passwordForm.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent form submission
+                passwordForm.style.display = 'none'; // Hide the password input
+                optionsSection.style.display = 'block'; // Show the options
+            });
+        });
+    </script>
 </body>
 </html>
