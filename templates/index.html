@@ -3,6 +3,7 @@
 <head>
     <title>Ubuntu Hardening App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='ufw-config.css') }}">
+
 </head>
 <body>
     <div class="container">
@@ -18,31 +19,51 @@
             <div class="toggle-button">
                 <div class="toggle-label">Enable UFW</div>
                 <label class="switch">
-                    <input type="checkbox" name="ufw_toggle" value="1">
+                    <input type="checkbox" name="ufw_toggle" id="ufw-toggle" value="1">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+            <div class="sub-options" style="margin-left: 20px;">
+                <div class="toggle-button toggle-option">
+                    <div class="toggle-label">Allow Incoming</div>
+                    <label class="switch">
+                        <input type="checkbox" name="incoming_toggle" value="1" disabled>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-button toggle-option">
+                    <div class="toggle-label">Allow Outgoing</div>
+                    <label class="switch">
+                        <input type="checkbox" name="outgoing_toggle" value="1" disabled>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-button toggle-option">
+                    <div class="toggle-label">Allow SSH</div>
+                    <label class="switch">
+                        <input type="checkbox" name="ssh_toggle" value="1" disabled>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="toggle-button">
+                <div class="toggle-label">Update</div>
+                <label class="switch">
+                    <input type="checkbox" name="update_toggle" id="update-toggle" value="1">
                     <span class="slider round"></span>
                 </label>
             </div>
 
             <div class="toggle-button">
-                <div class="toggle-label">Allow Incoming</div>
+                <div class="toggle-label">Upgrade</div>
                 <label class="switch">
-                    <input type="checkbox" name="incoming_toggle" value="1">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-
-            <div class="toggle-button">
-                <div class="toggle-label">Allow Outgoing</div>
-                <label class="switch">
-                    <input type="checkbox" name="outgoing_toggle" value="1">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-
-            <div class="toggle-button">
-                <div class="toggle-label">Allow SSH</div>
-                <label class="switch">
-                    <input type="checkbox" name="ssh_toggle" value="1">
+                    <input type="checkbox" name="ufw_toggle" id="upgrade-toggle" value="1">
                     <span class="slider round"></span>
                 </label>
             </div>
@@ -65,6 +86,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const ufwToggle = document.getElementById('ufw-toggle');
+            const toggleOptions = document.querySelectorAll('.toggle-option');
+
+            ufwToggle.addEventListener('change', function () {
+                const isEnabled = ufwToggle.checked;
+
+                toggleOptions.forEach(function (option) {
+                    const checkbox = option.querySelector('input[type="checkbox"]');
+                    checkbox.disabled = !isEnabled;
+                    if (!isEnabled) {
+                        checkbox.checked = false;
+                    }
+                });
+            });
+
             const passwordForm = document.getElementById('password-form');
             const passwordSubmitButton = document.getElementById('password-submit');
             const optionsSection = document.getElementById('options-section');

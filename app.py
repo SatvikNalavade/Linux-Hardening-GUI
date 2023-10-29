@@ -21,6 +21,8 @@ def index():
         incoming = request.form.get('incoming_toggle', 0)
         outgoing = request.form.get('outgoing_toggle', 0)
         ssh = request.form.get('ssh_toggle', 0)
+        update = request.form.get('update_toggle', 0)
+        upgrade = request.form.get('upgrade_toggle', 0)
 
         if not password:
             flash("Please enter your sudo password.", 'error')
@@ -55,6 +57,18 @@ def index():
                 success, message = run_command_with_sudo("sudo ufw allow ssh", password)
             else:
                 success, message = run_command_with_sudo("sudo ufw delete allow ssh", password)
+
+            if not success:
+                flash(message, 'error')
+
+            if update == '1':
+                success, message = run_command_with_sudo("sudo apt update", password)
+
+            if not success:
+                flash(message, 'error')
+
+            if upgrade == '1':
+                success, message = run_command_with_sudo("sudo apt upgrade -y", password)
 
             if not success:
                 flash(message, 'error')
